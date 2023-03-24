@@ -15,6 +15,7 @@ import com.aosp.R
 import com.aosp.exts.*
 import com.aosp.ui.presenters.HomePageAction
 import com.aosp.ui.presenters.HomePagePresenter
+import com.aosp.ui.viewModles.HomePageViewModel
 import com.aosp.views.LoadFile
 import com.aosp.views.LogCatView
 import kotlinx.coroutines.channels.Channel
@@ -22,12 +23,16 @@ import kotlinx.coroutines.flow.Flow
 import moe.tlaster.precompose.molecule.collectAction
 import moe.tlaster.precompose.molecule.rememberPresenter
 import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.ui.viewModel
 import java.util.*
 import javax.swing.JFileChooser
 
 
 @Composable
 fun HomePage(navigator: Navigator) {
+    val mHomePageViewModel = viewModel {
+        HomePageViewModel()
+    }
     Column(
         modifier = Modifier.background(R.Colors.white)
             .fillMaxSize()
