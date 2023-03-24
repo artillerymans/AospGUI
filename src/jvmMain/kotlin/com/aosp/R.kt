@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.sp
 object R {
     object Colors {
         val white = Color(0xffffffff)
+        val black = Color(0xff000000)
     }
 
     object Dimens {

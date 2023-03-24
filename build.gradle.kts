@@ -23,10 +23,11 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(compose.foundation)
-                implementation(compose.animation)
-                val precompose_version = "1.3.15"
-                implementation("moe.tlaster:precompose:$precompose_version")
+                api(compose.foundation)
+                api(compose.animation)
+                val preComposeVersion = "1.3.15"
+                api("moe.tlaster:precompose:$preComposeVersion")
+                api("moe.tlaster:precompose-molecule:$preComposeVersion")
             }
         }
         val jvmTest by getting
