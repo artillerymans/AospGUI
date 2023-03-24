@@ -19,10 +19,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposeWindow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.aosp.R
+import com.aosp.exts.click
+import com.aosp.exts.paddingHorizontal
+import com.aosp.exts.paddingVertical
 import com.aosp.exts.rememberMutableStateOf
+import com.aosp.ui.logCat
+import com.aosp.ui.presenters.HomePageAction
+import java.util.*
+import javax.swing.JFileChooser
 import kotlin.math.log
 
 @Composable
@@ -54,9 +64,9 @@ fun SimpleAction(title: String = "", onBack: () -> Unit) {
 fun LogCatView(
     list: List<String>, modifier: Modifier =
         Modifier.fillMaxWidth()
-        .fillMaxHeight(0.5f)
-        .border(R.Dimens.dp1, R.Colors.black, RoundedCornerShape(5.dp))
-        .padding(10.dp)
+            .fillMaxHeight(0.5f)
+            .border(R.Dimens.dp1, R.Colors.black, RoundedCornerShape(5.dp))
+            .padding(10.dp)
 ) {
     val scrollState = rememberLazyListState()
 
@@ -85,6 +95,55 @@ fun LogCatView(
         VerticalScrollbar(
             rememberScrollbarAdapter(scrollState),
             modifier = Modifier.align(Alignment.CenterEnd)
+        )
+    }
+}
+
+
+@Composable
+fun LoadFile(
+    btnText: String = "加载项目",
+    pathHints: String = "选择项目路径",
+    path: String = "",
+    selectFileMode: Int = JFileChooser.FILES_ONLY,
+    modifier: Modifier = Modifier.wrapContentSize(),
+    onPathChange: (String) -> Unit
+) {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = path.ifEmpty { pathHints },
+            style = if (path.isEmpty()) {
+                MaterialTheme.typography.body2.copy(color = Color.LightGray)
+            } else {
+                MaterialTheme.typography.body2
+            },
+            modifier = Modifier.border(1.dp, Color.Black, RoundedCornerShape(5.dp))
+                .weight(1f)
+                .height(IntrinsicSize.Min)
+                .paddingVertical(6.dp)
+                .paddingHorizontal(10.dp)
+        )
+        Spacer(modifier = Modifier.width(10.dp).height(IntrinsicSize.Min))
+        Text(
+            btnText,
+            modifier = Modifier
+                .click {
+                    val chooser = JFileChooser().also {
+                        it.fileSelectionMode = selectFileMode
+                        it.dialogTitle = btnText
+                        it.locale = Locale.SIMPLIFIED_CHINESE
+                        val returnVal = it.showOpenDialog(ComposeWindow())
+                        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                            val selectedFolder = it.selectedFile
+                            onPathChange.invoke(selectedFolder.absolutePath)
+                        }
+                    }
+                }
+                .border(1.dp, Color.Black, RoundedCornerShape(6.dp))
+                .paddingHorizontal(8.dp)
+                .paddingVertical(5.dp)
+                .wrapContentSize()
+                .fillMaxHeight()
         )
     }
 }
