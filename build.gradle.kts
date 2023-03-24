@@ -29,6 +29,7 @@ kotlin {
                 val preComposeVersion = "1.3.15"
                 implementation("moe.tlaster:precompose:$preComposeVersion")
                 implementation("moe.tlaster:precompose-molecule:$preComposeVersion")
+
                 implementation("cn.hutool:hutool-all:5.8.15")
             }
         }

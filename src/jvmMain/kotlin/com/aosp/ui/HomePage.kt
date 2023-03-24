@@ -66,6 +66,9 @@ fun HomePage(navigator: Navigator) {
                 path = state.csvPath
             ) {
                 logCat(channel, "选择CSV路径: $it")
+                mHomePageViewModel.readCSVFile(it){
+
+                }
                 channel.trySend(HomePageAction.LoadCSVFile(it))
             }
         }
