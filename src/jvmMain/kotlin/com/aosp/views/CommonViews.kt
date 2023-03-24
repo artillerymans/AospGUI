@@ -1,8 +1,10 @@
 package com.aosp.views
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Icon
@@ -24,8 +26,8 @@ import com.aosp.exts.rememberMutableStateOf
 import kotlin.math.log
 
 @Composable
-fun SimpleAction(title: String = "",onBack: () -> Unit) {
-    Row (
+fun SimpleAction(title: String = "", onBack: () -> Unit) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(R.Dimens.dp56)
@@ -49,23 +51,40 @@ fun SimpleAction(title: String = "",onBack: () -> Unit) {
 
 
 @Composable
-fun LogCatView(msg: String) {
+fun LogCatView(
+    list: List<String>, modifier: Modifier =
+        Modifier.fillMaxWidth()
+        .fillMaxHeight(0.5f)
+        .border(R.Dimens.dp1, R.Colors.black, RoundedCornerShape(5.dp))
+        .padding(10.dp)
+) {
+    val scrollState = rememberLazyListState()
+
+    LaunchedEffect(list) {
+        if (list.isNotEmpty()) {
+            scrollState.scrollToItem(list.lastIndex)
+        }
+    }
+
     Box(
-        modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)
-            .defaultMinSize(minHeight = 100.dp)
-            .border(R.Dimens.dp1, R.Colors.black, RoundedCornerShape(5.dp))
+        modifier.then(Modifier.fillMaxSize())
     ) {
-        BasicTextField(
-            value = msg,
-            onValueChange = {},
-            textStyle = TextStyle(
-                color = R.Colors.black,
-                fontSize = R.Dimens.sp16
-            ),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(6.dp),
-            readOnly = true
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            state = scrollState,
+        ) {
+            items(list, key = { item -> item }) { item ->
+                Text(
+                    text = item,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.body2
+                )
+            }
+        }
+
+        VerticalScrollbar(
+            rememberScrollbarAdapter(scrollState),
+            modifier = Modifier.align(Alignment.CenterEnd)
         )
     }
 }

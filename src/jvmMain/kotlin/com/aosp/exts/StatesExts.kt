@@ -6,7 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 
 @Composable
-fun <T> rememberMutableStateOf(value: T?) = remember { mutableStateOf(value) }
+fun <T> rememberMutableStateOf(value: T) = remember { mutableStateOf(value) }
 
 @Composable
 fun <T> rememberMutableSaveStateOf(value: T) = rememberSaveable() {

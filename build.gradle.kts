@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    id("app.cash.molecule")
 }
 
 group = "com.aosp"
@@ -16,18 +17,18 @@ repositories {
 
 kotlin {
     jvm {
-        jvmToolchain(11)
+        jvmToolchain(17)
         withJava()
     }
     sourceSets {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                api(compose.foundation)
-                api(compose.animation)
+                implementation(compose.foundation)
+                implementation(compose.animation)
                 val preComposeVersion = "1.3.15"
-                api("moe.tlaster:precompose:$preComposeVersion")
-                api("moe.tlaster:precompose-molecule:$preComposeVersion")
+                implementation("moe.tlaster:precompose:$preComposeVersion")
+                implementation("moe.tlaster:precompose-molecule:$preComposeVersion")
             }
         }
         val jvmTest by getting
