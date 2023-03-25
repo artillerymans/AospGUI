@@ -6,34 +6,25 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.aosp.R
 import com.aosp.exts.click
 import com.aosp.exts.paddingHorizontal
 import com.aosp.exts.paddingVertical
-import com.aosp.exts.rememberMutableStateOf
-import com.aosp.ui.logCat
-import com.aosp.ui.presenters.HomePageAction
 import java.util.*
 import javax.swing.JFileChooser
-import kotlin.math.log
+
 
 @Composable
 fun SimpleAction(title: String = "", onBack: () -> Unit) {
@@ -83,12 +74,14 @@ fun LogCatView(
             modifier = Modifier.fillMaxSize(),
             state = scrollState,
         ) {
-            items(list, key = { item -> item }) { item ->
-                Text(
-                    text = item,
-                    modifier = Modifier.fillMaxWidth(),
-                    style = MaterialTheme.typography.body2
-                )
+            items(list) { item ->
+                SelectionContainer {
+                    Text(
+                        text = item,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.body2
+                    )
+                }
             }
         }
 
