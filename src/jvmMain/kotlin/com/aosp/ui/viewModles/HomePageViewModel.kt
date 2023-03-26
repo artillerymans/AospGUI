@@ -19,6 +19,8 @@ import moe.tlaster.precompose.viewmodel.viewModelScope
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
+import java.nio.file.Paths
+import kotlin.io.path.Path
 
 class HomePageViewModel : ViewModel() {
 
@@ -74,8 +76,6 @@ class HomePageViewModel : ViewModel() {
                 if (path.isEmpty()){
                     return@run
                 }
-                //FileUtil.copy(path, outPath, true)
-
 
                 val listFiles = FileUtil.loopFiles(path)
                 listFiles.forEach {
