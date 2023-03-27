@@ -22,7 +22,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.rememberDialogState
+import cn.hutool.json.JSONUtil
 import com.aosp.R
+import com.aosp.Route
 import com.aosp.exts.*
 import com.aosp.ui.presenters.HomePageAction
 import com.aosp.ui.presenters.HomePagePresenter
@@ -36,13 +38,13 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import moe.tlaster.precompose.molecule.collectAction
 import moe.tlaster.precompose.molecule.rememberPresenter
+import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.ui.viewModel
 import java.awt.event.KeyEvent
 import javax.swing.JFileChooser
 
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomePage(navigator: Navigator) {
     val mHomePageViewModel = viewModel {
@@ -116,7 +118,9 @@ fun HomePage(navigator: Navigator) {
                     style = MaterialTheme.typography.h3.copy(color = Color.White),
                     modifier = Modifier.clip(RoundedCornerShape(20.dp))
                         .click {
-                            mHomePageViewModel.start(state, bus)
+                            //mHomePageViewModel.start(state, bus)
+                            val check = CheckFileTreeParameter(state.path)
+                            navigator.navigate("${Route.CHECK}?json=${JSONUtil.toJsonStr(check)}")
                         }
                         .background(Color.Blue)
                         .padding(30.dp)

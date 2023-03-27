@@ -14,13 +14,19 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import cn.hutool.json.JSONUtil
 import com.aosp.R
 import com.aosp.Route
 import com.aosp.exts.loadIconByResources
+import com.aosp.ui.CheckFileTreePage
+import com.aosp.ui.CheckFileTreeParameter
 import com.aosp.ui.HomePage
 import com.aosp.ui.SettingsPage
+import com.aosp.ui.presenters.HomePageState
 import moe.tlaster.precompose.PreComposeWindow
 import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.path
+import moe.tlaster.precompose.navigation.query
 import moe.tlaster.precompose.navigation.rememberNavigator
 import moe.tlaster.precompose.navigation.transition.NavTransition
 
@@ -48,6 +54,17 @@ fun App() {
                 navTransition = NavTransition()
             ) {
                 SettingsPage(navigator)
+            }
+            scene(
+                route = Route.CHECK,
+                navTransition = NavTransition()
+            ){
+                println("---> ${JSONUtil.toJsonStr(it)}")
+                val jsonStr = it.query("json", "")
+                println("jsonStr == $jsonStr")
+                val jsonObj = JSONUtil.parseObj(jsonStr)
+
+                CheckFileTreePage(navigator, CheckFileTreeParameter(jsonObj.getStr("path")))
             }
         }
     }

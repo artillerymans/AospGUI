@@ -28,6 +28,7 @@ import javax.swing.JFileChooser
 
 @Composable
 fun SimpleAction(title: String = "", onBack: () -> Unit) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
