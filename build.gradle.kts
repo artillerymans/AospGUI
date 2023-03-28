@@ -30,7 +30,8 @@ kotlin {
                 implementation("moe.tlaster:precompose:$preComposeVersion")
                 implementation("moe.tlaster:precompose-molecule:$preComposeVersion")
 
-                implementation("cn.hutool:hutool-all:5.8.15")
+                implementation("cn.hutool:hutool-cron:5.8.15")
+                implementation("com.alibaba.fastjson2:fastjson2-kotlin:2.0.26")
             }
         }
         val jvmTest by getting

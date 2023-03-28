@@ -2,25 +2,19 @@ package com.aosp.ui.viewModles
 
 import cn.hutool.core.io.FileUtil
 import cn.hutool.core.io.file.FileNameUtil
-import cn.hutool.core.io.file.PathUtil
 import cn.hutool.core.text.csv.CsvUtil
-import cn.hutool.json.JSONUtil
+import com.alibaba.fastjson2.toJSONString
 import com.aosp.base.BaseAction
 import com.aosp.exts.*
 import com.aosp.ui.presenters.HomePageAction
 import com.aosp.ui.presenters.HomePageState
-import com.aosp.ui.presenters.PageAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
-import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
-import java.nio.file.Paths
-import kotlin.io.path.Path
 
 class HomePageViewModel : ViewModel() {
 
@@ -51,7 +45,7 @@ class HomePageViewModel : ViewModel() {
                         if (it.rawList.size >= 2) {
                             androidxMap[it.rawList[0]] = it.rawList[1]
                         }
-                        bus.print(JSONUtil.toJsonStr(it.rawList))
+                        bus.print(it.rawList.toJSONString())
                     }
                     bus.success()
                 } catch (e: IOException) {

@@ -1,20 +1,13 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import cn.hutool.json.JSONUtil
+import com.alibaba.fastjson2.to
+import com.alibaba.fastjson2.toJSONString
 import com.aosp.R
 import com.aosp.Route
 import com.aosp.exts.loadIconByResources
@@ -22,10 +15,8 @@ import com.aosp.ui.CheckFileTreePage
 import com.aosp.ui.CheckFileTreeParameter
 import com.aosp.ui.HomePage
 import com.aosp.ui.SettingsPage
-import com.aosp.ui.presenters.HomePageState
 import moe.tlaster.precompose.PreComposeWindow
 import moe.tlaster.precompose.navigation.NavHost
-import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.query
 import moe.tlaster.precompose.navigation.rememberNavigator
 import moe.tlaster.precompose.navigation.transition.NavTransition
@@ -33,7 +24,7 @@ import moe.tlaster.precompose.navigation.transition.NavTransition
 @Composable
 @Preview
 fun App() {
-    var text by remember { mutableStateOf("Hello, World!") }
+
     val colors = MaterialTheme.colors.copy(background = R.Colors.white, onBackground = R.Colors.white)
 
     MaterialTheme(colors = colors){
@@ -59,12 +50,13 @@ fun App() {
                 route = Route.CHECK,
                 navTransition = NavTransition()
             ){
-                println("---> ${JSONUtil.toJsonStr(it)}")
+                val beanJson = it.toJSONString()
+                println("---> $beanJson")
                 val jsonStr = it.query("json", "")
                 println("jsonStr == $jsonStr")
-                val jsonObj = JSONUtil.parseObj(jsonStr)
-
-                CheckFileTreePage(navigator, CheckFileTreeParameter(jsonObj.getStr("path")))
+                val obj = jsonStr.to<CheckFileTreeParameter>()
+                println("$obj")
+                CheckFileTreePage(navigator, obj)
             }
         }
     }

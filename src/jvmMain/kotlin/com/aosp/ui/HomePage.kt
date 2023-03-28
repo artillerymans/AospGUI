@@ -2,30 +2,25 @@ package com.aosp.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectTapGestures
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.awt.ComposeDialog
-import androidx.compose.ui.awt.awtEventOrNull
+
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
+
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.type
-import androidx.compose.ui.input.pointer.pointerInput
+
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupPositionProvider
-import androidx.compose.ui.window.rememberDialogState
-import cn.hutool.json.JSONUtil
+import com.alibaba.fastjson2.toJSONString
+
 import com.aosp.R
 import com.aosp.Route
 import com.aosp.exts.*
+import com.aosp.navAction
 import com.aosp.ui.presenters.HomePageAction
 import com.aosp.ui.presenters.HomePagePresenter
 import com.aosp.ui.presenters.PageAction
@@ -120,7 +115,7 @@ fun HomePage(navigator: Navigator) {
                         .click {
                             //mHomePageViewModel.start(state, bus)
                             val check = CheckFileTreeParameter(state.path)
-                            navigator.navigate("${Route.CHECK}?json=${JSONUtil.toJsonStr(check)}")
+                            navigator.navigate(Route.CHECK.navAction(check))
                         }
                         .background(Color.Blue)
                         .padding(30.dp)
