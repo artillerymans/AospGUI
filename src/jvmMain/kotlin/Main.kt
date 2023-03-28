@@ -11,6 +11,7 @@ import com.alibaba.fastjson2.toJSONString
 import com.aosp.R
 import com.aosp.Route
 import com.aosp.exts.loadIconByResources
+import com.aosp.navParameter
 import com.aosp.ui.CheckFileTreePage
 import com.aosp.ui.CheckFileTreeParameter
 import com.aosp.ui.HomePage
@@ -50,11 +51,7 @@ fun App() {
                 route = Route.CHECK,
                 navTransition = NavTransition()
             ){
-                val beanJson = it.toJSONString()
-                println("---> $beanJson")
-                val jsonStr = it.query("json", "")
-                println("jsonStr == $jsonStr")
-                val obj = jsonStr.to<CheckFileTreeParameter>()
+                val obj = it.navParameter<CheckFileTreeParameter>()
                 println("$obj")
                 CheckFileTreePage(navigator, obj)
             }
